@@ -1,0 +1,72 @@
+{
+	"info": {
+		"_postman_id": "bb42a341-c6ed-4108-8e0a-f85802144d9a",
+		"name": "zupcash",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28447111"
+	},
+	"item": [
+		{
+			"name": "consulta todos os clientes",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "cadatra cliente",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"numeConta\": \"065634-2\",\r\n    \"agencia\": \"0022\",\r\n    \"nomeUsuario\":\"fabiovaz\",\r\n    \"valorAtual\": 0.0,\r\n    \"valorFinal\": 0.0,\r\n    \"statusConta\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/zupcash/cadastra"
+			},
+			"response": []
+		},
+		{
+			"name": "consulta cliente por id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/zupcash/busca/2"
+			},
+			"response": []
+		},
+		{
+			"name": "deposito em conta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "http://localhost:8080/zupcash/deposito/1/065634%2D2/500"
+			},
+			"response": []
+		},
+		{
+			"name": "saque em conta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "http://localhost:8080/zupcash/saque/1/065634%2D2/500"
+			},
+			"response": []
+		},
+		{
+			"name": "deleta/suspende conta corrente",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "http://localhost:8080/zupcash/delete/2"
+			},
+			"response": []
+		}
+	]
+}
