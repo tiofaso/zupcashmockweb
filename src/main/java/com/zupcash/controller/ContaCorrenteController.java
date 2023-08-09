@@ -25,7 +25,7 @@ public class ContaCorrenteController {
     //Endpoint de consulta
     //Get - lista todos os clientes da DB
     @GetMapping(path = "/zupcash/clientes")
-    public ResponseEntity<List<ContaCorrenteDTO>> buscaClientes(){
+    public ResponseEntity<List<ContaCorrenteDTO>> buscaClientes() {
         List<ContaCorrente> contasCorrente = contaCorrenteService.buscaTodosClientes();
         return ResponseEntity.ok(contasCorrente.stream().map(contaCorrenteMapper::toDto).collect(Collectors.toList()));
     }
@@ -36,7 +36,7 @@ public class ContaCorrenteController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ContaCorrenteDTO> cadastraNovoCliente(@RequestBody ContaCorrente contaCorrente) {
         ContaCorrente contasCorrente = contaCorrenteService.cadastraCliente(contaCorrente);
-        return new ResponseEntity<>(contaCorrenteMapper.toDto(contasCorrente),HttpStatus.CREATED);
+        return new ResponseEntity<>(contaCorrenteMapper.toDto(contasCorrente), HttpStatus.CREATED);
     }
 
     //Endpoint de consulta individual
