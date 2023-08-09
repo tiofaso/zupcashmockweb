@@ -6,6 +6,7 @@ import com.zupcash.model.ContaCorrente;
 import com.zupcash.service.ContaCorrenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -24,28 +25,28 @@ public class ContaCorrenteController {
     //Endpoint de consulta
     //Get - lista todos os clientes da DB
     @GetMapping(path = "/zupcash/clientes")
-    public List<ContaCorrenteDTO> buscaClientes(){
+    public ResponseEntity<List<ContaCorrenteDTO>> buscaClientes(){
         List<ContaCorrente> contasCorrente = contaCorrenteService.buscaTodosClientes();
-        return contasCorrente.stream().map(contaCorrenteMapper::toDto).collect(Collectors.toList());
+        return ResponseEntity.ok(contasCorrente.stream().map(contaCorrenteMapper::toDto).collect(Collectors.toList()));
     }
 
     //Endpoint de inserção
     //Post - insere um novo cliente na DB
     @PostMapping(path = "/zupcash/cadastra")
     @ResponseStatus(HttpStatus.CREATED)
-    public ContaCorrenteDTO cadastraNovoCliente(@RequestBody ContaCorrente contaCorrente) {
+    public ResponseEntity<ContaCorrenteDTO> cadastraNovoCliente(@RequestBody ContaCorrente contaCorrente) {
         ContaCorrente contasCorrente = contaCorrenteService.cadastraCliente(contaCorrente);
-        return contaCorrenteMapper.toDto(contasCorrente);
+        return new ResponseEntity<>(contaCorrenteMapper.toDto(contasCorrente),HttpStatus.CREATED);
     }
 
     //Endpoint de consulta individual
     //Get - busca um cliente específico na DB
     @GetMapping(path = "/zupcash/busca/{contacorrente}")
-    public Optional<ContaCorrenteDTO> buscaClienteId(@PathVariable String contacorrente) {
+    public ResponseEntity<Optional<ContaCorrenteDTO>> buscaClienteId(@PathVariable String contacorrente) {
         Optional<ContaCorrente> contasCorrenteOptional = contaCorrenteService.buscaContaCorrente(contacorrente);
 
         ContaCorrente contasCorrente = contasCorrenteOptional.get();
-        return Optional.ofNullable(contaCorrenteMapper.toDto(contasCorrente));
+        return ResponseEntity.ok(Optional.ofNullable(contaCorrenteMapper.toDto(contasCorrente)));
 
     }
 

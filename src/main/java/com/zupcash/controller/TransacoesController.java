@@ -6,6 +6,7 @@ import com.zupcash.model.Transacoes;
 import com.zupcash.service.TransacoesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,26 +27,26 @@ public class TransacoesController {
     //Post - insere valores na conta do cliente
     @PostMapping(path = "/zupcash/deposito/{contacorrente}/{valor}" )
     @ResponseStatus(HttpStatus.CREATED)
-    public TransacoesDTO depositarDinheiro(@PathVariable String contacorrente, @PathVariable BigDecimal valor) {
+    public ResponseEntity<TransacoesDTO> depositarDinheiro(@PathVariable String contacorrente, @PathVariable BigDecimal valor) {
         Transacoes deposito = transacoesService.depositar(contacorrente,valor);
 
         deposito.setNumeroConta(contacorrente);
         deposito.setValor(valor);
 
-        return transacoesMapper.toDto(deposito);
+        return new ResponseEntity<>(transacoesMapper.toDto(deposito),HttpStatus.CREATED);
     }
 
     //Endpoint de insercao e alteração
     //Post - remove valores na conta do cliente
     @PostMapping(path = "/zupcash/saque/{contacorrente}/{valor}" )
     @ResponseStatus(HttpStatus.CREATED)
-    public TransacoesDTO sacarDinheiro(@PathVariable String contacorrente, @PathVariable BigDecimal valor) {
+    public ResponseEntity<TransacoesDTO> sacarDinheiro(@PathVariable String contacorrente, @PathVariable BigDecimal valor) {
         Transacoes saque = transacoesService.sacar(contacorrente,valor);
 
         saque.setNumeroConta(contacorrente);
         saque.setValor(valor);
 
-        return transacoesMapper.toDto(saque);
+        return new ResponseEntity<>(transacoesMapper.toDto(saque),HttpStatus.CREATED);
     }
 
 }
