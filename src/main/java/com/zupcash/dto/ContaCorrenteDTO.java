@@ -10,12 +10,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContaCorrenteDTO {
-    private long idDto;
     private String numeroContaDto;
     private String valorAtualDto;
     private String agenciaDto;
     private String nomeUsuarioDto;
     private String valoFinalDto;
-    private String statusContaDto;
 
 }
