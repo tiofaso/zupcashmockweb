@@ -1,6 +1,6 @@
 package com.zupcash.controller;
 
-import com.zupcash.dto.ContaCorrenteDto;
+import com.zupcash.dto.ContaCorrenteDTO;
 import com.zupcash.mapper.ContaCorrenteMapper;
 import com.zupcash.model.ContaCorrente;
 import com.zupcash.service.ContaCorrenteService;
@@ -24,7 +24,7 @@ public class ContaCorrenteController {
     //Endpoint de consulta
     //Get - lista todos os clientes da DB
     @GetMapping(path = "/zupcash/clientes")
-    public List<ContaCorrenteDto> buscaClientes(){
+    public List<ContaCorrenteDTO> buscaClientes(){
         List<ContaCorrente> contasCorrente = contaCorrenteService.buscaTodosClientes();
         return contasCorrente.stream().map(contaCorrenteMapper::toDto).collect(Collectors.toList());
     }
@@ -33,7 +33,7 @@ public class ContaCorrenteController {
     //Post - insere um novo cliente na DB
     @PostMapping(path = "/zupcash/cadastra")
     @ResponseStatus(HttpStatus.CREATED)
-    public ContaCorrenteDto cadastraNovoCliente(@RequestBody ContaCorrente contaCorrente) {
+    public ContaCorrenteDTO cadastraNovoCliente(@RequestBody ContaCorrente contaCorrente) {
         ContaCorrente contasCorrente = contaCorrenteService.cadastraCliente(contaCorrente);
         return contaCorrenteMapper.toDto(contasCorrente);
     }
@@ -41,7 +41,7 @@ public class ContaCorrenteController {
     //Endpoint de consulta individual
     //Get - busca um cliente específico na DB
     @GetMapping(path = "/zupcash/busca/{id}")
-    public Optional<ContaCorrenteDto> buscaClienteId(@PathVariable Long id) {
+    public Optional<ContaCorrenteDTO> buscaClienteId(@PathVariable Long id) {
         Optional<ContaCorrente> contasCorrenteOptional = contaCorrenteService.buscaId(id);
 
         ContaCorrente contasCorrente = contasCorrenteOptional.get();

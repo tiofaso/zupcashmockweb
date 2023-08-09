@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContaCorrenteDto {
+public class ContaCorrenteDTO {
     private long idDto;
     private String numeroContaDto;
     private String valorAtualDto;

@@ -1,13 +1,13 @@
 package com.zupcash.mapper;
 
-import com.zupcash.dto.ContaCorrenteDto;
+import com.zupcash.dto.ContaCorrenteDTO;
 import com.zupcash.model.ContaCorrente;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ContaCorrenteMapper {
-    public ContaCorrenteDto toDto(ContaCorrente contaCorrente) {
-        ContaCorrenteDto dto = new ContaCorrenteDto();
+    public ContaCorrenteDTO toDto(ContaCorrente contaCorrente) {
+        ContaCorrenteDTO dto = new ContaCorrenteDTO();
 
         dto.setIdDto(contaCorrente.getId());
         dto.setNumeroContaDto(contaCorrente.getNumeroConta());
