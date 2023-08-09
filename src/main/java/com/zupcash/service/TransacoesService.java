@@ -25,7 +25,7 @@ public class TransacoesService {
     ContaCorrenteService contaCorrenteService;
 
     //Método que deposita dinheiro na conta de um cliente
-    public Transacoes depositar(Long id, String contacorrente, BigDecimal valor) {
+    public Transacoes depositar(String contacorrente, BigDecimal valor) {
         Transacoes transacao = new Transacoes();
 
         transacao.setNumeroConta(contacorrente);
@@ -52,14 +52,14 @@ public class TransacoesService {
     }
 
     //Método que saca dinheiro da conta de um cliente
-    public Transacoes sacar(Long id, String contacorrente, BigDecimal valor) {
+    public Transacoes sacar(String contacorrente, BigDecimal valor) {
         Transacoes transacao = new Transacoes();
 
         transacao.setNumeroConta(contacorrente);
         transacao.setValor(valor);
         transacao.setServico("saque");
 
-        ContaCorrente atualizaConta = contaCorrenteService.buscaId(id).orElse(null);
+        ContaCorrente atualizaConta = contaCorrenteService.buscaContaCorrente(contacorrente).orElse(null);
 
         if(atualizaConta != null){
             BigDecimal valorDbAtual = atualizaConta.getValorAtual();

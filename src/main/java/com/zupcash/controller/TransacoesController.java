@@ -1,9 +1,8 @@
 package com.zupcash.controller;
 
-import com.zupcash.model.ContaCorrente;
+import com.zupcash.dto.TransacoesDTO;
+import com.zupcash.mapper.TransacoesMapper;
 import com.zupcash.model.Transacoes;
-import com.zupcash.repository.ContaCorrenteRepository;
-import com.zupcash.service.ContaCorrenteService;
 import com.zupcash.service.TransacoesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,23 +19,33 @@ public class TransacoesController {
     @Autowired
     TransacoesService transacoesService;
 
+    @Autowired
+    TransacoesMapper transacoesMapper;
+
     //Endpoint de insercao e de alteração
     //Post - insere valores na conta do cliente
-    @PostMapping(path = "/zupcash/deposito/{id}/{contacorrente}/{valor}" )
+    @PostMapping(path = "/zupcash/deposito/{contacorrente}/{valor}" )
     @ResponseStatus(HttpStatus.CREATED)
-    public Transacoes depositarDinheiro(@PathVariable Long id, @PathVariable String contacorrente, @PathVariable BigDecimal valor) {
+    public TransacoesDTO depositarDinheiro(@PathVariable String contacorrente, @PathVariable BigDecimal valor) {
+        Transacoes deposito = transacoesService.depositar(contacorrente,valor);
 
-        return transacoesService.depositar(id,contacorrente,valor);
+        deposito.setNumeroConta(contacorrente);
+        deposito.setValor(valor);
 
+        return transacoesMapper.toDto(deposito);
     }
 
     //Endpoint de insercao e alteração
     //Post - remove valores na conta do cliente
-    @PostMapping(path = "/zupcash/saque/{id}/{contacorrente}/{valor}" )
+    @PostMapping(path = "/zupcash/saque/{contacorrente}/{valor}" )
     @ResponseStatus(HttpStatus.CREATED)
-    public Transacoes sacarDinheiro(@PathVariable Long id, @PathVariable String contacorrente, @PathVariable BigDecimal valor) {
+    public TransacoesDTO sacarDinheiro(@PathVariable String contacorrente, @PathVariable BigDecimal valor) {
+        Transacoes saque = transacoesService.sacar(contacorrente,valor);
 
-        return transacoesService.sacar(id,contacorrente,valor);
+        saque.setNumeroConta(contacorrente);
+        saque.setValor(valor);
+
+        return transacoesMapper.toDto(saque);
     }
 
 }
