@@ -1,6 +1,7 @@
 package com.zupcash.service;
 
 import com.zupcash.exception.SaldoNegativoException;
+import com.zupcash.factory.ContaFactory;
 import com.zupcash.model.ContaCorrente;
 import com.zupcash.model.Transacoes;
 import com.zupcash.repository.ContaCorrenteRepository;
@@ -24,6 +25,9 @@ public class TransacoesService {
     @Autowired
     ContaCorrenteService contaCorrenteService;
 
+    @Autowired
+    ContaFactory contaFactory;
+
     //Método que deposita dinheiro na conta de um cliente
     public Transacoes depositar(String contacorrente, BigDecimal valor) {
         Transacoes transacao = new Transacoes();
@@ -36,13 +40,12 @@ public class TransacoesService {
         ContaCorrente atualizaConta = contaCorrenteService.buscaContaCorrente(contacorrente).orElse(null);
 
         if(atualizaConta != null){
-            BigDecimal valorDbAtual = atualizaConta.getValorAtual();
-            BigDecimal valorDeposito = valor;
+            BigDecimal resultado = contaFactory.tipoServicoConta(transacao.getServico())
+                    .calcular(atualizaConta.getValorAtual(),transacao.getValor());
 
-            BigDecimal somaDeposito = valorDbAtual.add(valorDeposito);
+            atualizaConta.setValorAtual(atualizaConta.getValorFinal());
 
-            atualizaConta.setValorAtual(somaDeposito);
-            atualizaConta.setValorFinal(somaDeposito);
+            atualizaConta.setValorFinal(resultado);
 
             contaCorrenteRepository.save(atualizaConta);
 
@@ -62,19 +65,18 @@ public class TransacoesService {
         ContaCorrente atualizaConta = contaCorrenteService.buscaContaCorrente(contacorrente).orElse(null);
 
         if(atualizaConta != null){
-            BigDecimal valorDbAtual = atualizaConta.getValorAtual();
-            BigDecimal valorSaque = valor;
+            BigDecimal resultado = contaFactory.tipoServicoConta(transacao.getServico())
+                    .calcular(atualizaConta.getValorAtual(),transacao.getValor());
 
-            BigDecimal subtracaoSaque = valorDbAtual.subtract(valorSaque);
+            atualizaConta.setValorAtual(atualizaConta.getValorFinal());
 
-            if(subtracaoSaque.compareTo(BigDecimal.ZERO) < 0){
-                String mensagem = "Se você sacar R$" + valorSaque + " ficará com saldo negativo!";
+            atualizaConta.setValorFinal(resultado);
+
+            if(resultado.compareTo(BigDecimal.ZERO) < 0){
+                String mensagem = "Se você sacar R$" + valor + " ficará com saldo negativo!";
                throw new SaldoNegativoException(mensagem);
 
             }
-
-            atualizaConta.setValorAtual(subtracaoSaque);
-            atualizaConta.setValorFinal(subtracaoSaque);
 
             contaCorrenteRepository.save(atualizaConta);
 
