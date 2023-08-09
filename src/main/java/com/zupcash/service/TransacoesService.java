@@ -32,7 +32,8 @@ public class TransacoesService {
         transacao.setValor(valor);
         transacao.setServico("deposito");
 
-        ContaCorrente atualizaConta = contaCorrenteService.buscaId(id).orElse(null);
+        //ContaCorrente atualizaConta = contaCorrenteService.buscaId(id).orElse(null);
+        ContaCorrente atualizaConta = contaCorrenteService.buscaContaCorrente(contacorrente).orElse(null);
 
         if(atualizaConta != null){
             BigDecimal valorDbAtual = atualizaConta.getValorAtual();

@@ -34,14 +34,19 @@ public class ContaCorrenteService {
         return contaCorrenteRepository.findById(id);
     }
 
+    public Optional<ContaCorrente> buscaContaCorrente(String contacorrente) {
+        //return contaCorrenteRepository.buscaContaCorrente(contacorrente);
+        return contaCorrenteRepository.findByNumeroConta(contacorrente);
+    }
+
     //Método para desativar/delete conta do cliente
-    public void deletaConta(Long id){
+    public ContaCorrente deletaConta(Long id){
         ContaCorrente fechaConta = buscaId(id).orElse(null);
 
         if(fechaConta != null){
            fechaConta.setStatusConta(false);
-           contaCorrenteRepository.save(fechaConta);
         }
+        return  contaCorrenteRepository.save(fechaConta);
     }
 
 }
