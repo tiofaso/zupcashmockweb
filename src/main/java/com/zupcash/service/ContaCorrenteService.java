@@ -1,13 +1,11 @@
 package com.zupcash.service;
 
 import com.zupcash.model.ContaCorrente;
-import com.zupcash.model.Transacoes;
 import com.zupcash.repository.ContaCorrenteRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,8 +38,8 @@ public class ContaCorrenteService {
     }
 
     //Método para desativar/delete conta do cliente
-    public ContaCorrente deletaConta(Long id){
-        ContaCorrente fechaConta = buscaId(id).orElse(null);
+    public ContaCorrente deletaConta(String contacorrente){
+        ContaCorrente fechaConta = buscaContaCorrente(contacorrente).orElse(null);
 
         if(fechaConta != null){
            fechaConta.setStatusConta(false);

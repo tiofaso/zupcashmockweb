@@ -40,9 +40,9 @@ public class ContaCorrenteController {
 
     //Endpoint de consulta individual
     //Get - busca um cliente específico na DB
-    @GetMapping(path = "/zupcash/busca/{id}")
-    public Optional<ContaCorrenteDTO> buscaClienteId(@PathVariable Long id) {
-        Optional<ContaCorrente> contasCorrenteOptional = contaCorrenteService.buscaId(id);
+    @GetMapping(path = "/zupcash/busca/{contacorrente}")
+    public Optional<ContaCorrenteDTO> buscaClienteId(@PathVariable String contacorrente) {
+        Optional<ContaCorrente> contasCorrenteOptional = contaCorrenteService.buscaContaCorrente(contacorrente);
 
         ContaCorrente contasCorrente = contasCorrenteOptional.get();
         return Optional.ofNullable(contaCorrenteMapper.toDto(contasCorrente));
@@ -51,10 +51,10 @@ public class ContaCorrenteController {
 
     //Endpoint de alteração
     //Post - desabilita a conta do cliente/delete
-    @PostMapping(path = "zupcash/delete/{id}")
+    @PostMapping(path = "zupcash/delete/{contacorrente}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void deletarConta(@PathVariable Long id) {
-        ContaCorrente contasCorrente = contaCorrenteService.deletaConta(id);
+    public void deletarConta(@PathVariable String contacorrente) {
+        ContaCorrente contasCorrente = contaCorrenteService.deletaConta(contacorrente);
         contaCorrenteMapper.toDto(contasCorrente);
     }
 }
