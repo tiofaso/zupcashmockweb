@@ -47,7 +47,6 @@ public class ContaCorrenteController {
 
         ContaCorrente contasCorrente = contasCorrenteOptional.get();
         return ResponseEntity.ok(Optional.ofNullable(contaCorrenteMapper.toDto(contasCorrente)));
-
     }
 
     //Endpoint de alteração
